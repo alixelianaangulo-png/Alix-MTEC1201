@@ -3,7 +3,7 @@
 //INTERACTIVE KAEIDOSCOPE//
 
 //move mouse horizontallly to rotate
-//move mouse verticially to alter brightness//darkness of colors
+//move mouse verticially to alter brightness/darkness shade of colors
 //press up + down keys to increase/decrease shape size
 //press any key to alter symmetry within
 
@@ -23,6 +23,7 @@ function setup() {
   g = random(40,180);
   b = random(0,60);
 }
+
 function draw() {
 background(190);
 translate(250, 250);
@@ -35,9 +36,9 @@ r = random(220,255);
 g = random(40,180);
 b = random(0,60);
 
-// else if
+// if else
 changeTimer = 0;
-} else if (mouseY < height/2) {
+} if (mouseY < height/2) {
   r = min(r + 3, 255);  // brighter
 } else {
 g = max(g -3, 0);  // darker
