@@ -11,9 +11,7 @@
 
 let scaleFactor = 1;
 let pieces = 6; //slices
-let r; // red
-let g; // green
-let b; // blue
+let r, g, b; // red
 let changeTimer = 0; // color change speed
 
 //randoms 
@@ -41,7 +39,7 @@ changeTimer = 0;
 } if (mouseY < height/2) {
   r = min(r + 3, 255);  // brighter
 } else {
-g = max(g -3, 0);  // darker
+g = max(g -5, 0);  // darker
 }
 for (let i = 0; i < pieces; i++) {
 rotate(TWO_PI / pieces);  // symmetry
