@@ -76,7 +76,7 @@ function drawState1() {
 }
 
 // ---------------- 2 ----------------
-//(growth / motion)
+//growth / motion
 function drawState2() {
   translate(width/2, height/2);
 
