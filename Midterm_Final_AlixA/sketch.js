@@ -1,3 +1,10 @@
+//MULTIPLICITY GAME//
+//midterm interactive option of games using short studies//
+//instructions on screen visible for players//
+//inspiration from "friv" main menu"
+
+
+
 let state = 0; // 0=menu, 1=stage1, 2=stage2, 3=stage3
 let score = 0;
 let stageTimer = 60*60; // 60 seconds
@@ -212,7 +219,7 @@ function drawStage3Option2(){
   }
 }
 
-// ---------------- KALEIDOSCOPE SHAPE ----------------
+// ---------------- KALEIDOSCOPE ----------------
 function drawKaleidoscopeShapeStatic(){
   strokeWeight(0.5);
   stroke(200);
@@ -276,7 +283,7 @@ function mousePressed(){
   }
 }
 
-// ---------------- STAGE CONTROL ----------------
+// ---------------- CONTROL ----------------
 function startStage(s){
   state=s;
   stageTimer=60*60;
