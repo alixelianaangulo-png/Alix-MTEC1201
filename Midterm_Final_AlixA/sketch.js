@@ -5,7 +5,7 @@
 
 
 
-let state = 0; // 0=menu, 1=stage1, 2=stage2, 3=stage3
+let state = 0; // 0=menu, 1=game 1, 2=game 2, 3=game 3
 let score = 0;
 let stageTimer = 60*60; // 60 seconds
 let bgColor;
@@ -18,7 +18,7 @@ let celebration = false;
 // Game 2
 let angle = 0;
 let targetAngle;
-let rotationSpeed = 0.2; // more sensitive
+let rotationSpeed = 0.2;
 let rotationFeedback = "";
 
 // Game 3
@@ -37,16 +37,16 @@ function setup() {
 
 function draw() {
   if(state!==0){
-    if(!bgColor) bgColor = color(random(200,255), random(200,255), random(200,255));
+    if(!bgColor) bgColor = color(random(200,255), random(200,255), random(200,255)); //bg color random change
   }
   background(bgColor || 220);
 
   if (state!==0){
     fill(0);
     textSize(20);
-    text("Score: "+score, width/2, 30);
+    text("Score: "+score, width/2, 30); // points
     textSize(14);
-    text("Time: "+ceil(stageTimer/60), width/2, 50);
+    text("Time: "+ceil(stageTimer/60), width/2, 50); // time
     if(stageTimer>0) stageTimer--;
     if(stageTimer<=0){
       state=0;
@@ -61,25 +61,25 @@ function draw() {
   else if(state===2) drawStage2();
   else if(state===3) drawStage3();
 
-  // Back button
-  if(state!==0){
+
+  if(state!==0){ 
     fill(200);
     rect(10,10,60,25,5);
     fill(0);
     textSize(12);
-    text("BACK", 40, 22);
+    text("BACK", 40, 22); // return button
   }
 }
 
-// ---------------- MENU ----------------
+// ---------------- MAIN MENU ----------------
 function setupMenu(){
-  menuTiles=[];
+  menuTiles=[]; // tile icons
   let cols=4, rows=3;
   let tileW=80, tileH=50;
   let spacingX=(width - (cols*tileW)) / (cols+1);
   let spacingY=(height - (rows*tileH)) / (rows+1);
 
-  let playableIndices=[];
+  let playableIndices=[]; // play
   while(playableIndices.length<3){
     let r = floor(random(cols*rows));
     if(!playableIndices.includes(r)) playableIndices.push(r);
@@ -135,7 +135,7 @@ function drawStage1(){
   textSize(14);
   text("Catch the kaleidoscopes to earn points!", width/2, 80);
 
-  if(score>=15 && !celebration){
+  if(score>=15 && !celebration){ // after 15 points, difficukty level increase
     celebration=true;
     orbBursts.push({x:random(width),y:random(height),r:random(15,35)});
   }
@@ -144,7 +144,7 @@ function drawStage1(){
 // ---------------- 2 ----------------
 function drawStage2(){
 
-  // Shape
+  // Model Shape
   push();
   translate(width - 100, 140); 
   rotate(targetAngle);
@@ -172,45 +172,42 @@ function drawStage2(){
   text(rotationFeedback, width/2, 400);
 }
 
-// ---------------- STAGE 3 ----------------
+// ---------------- 3 ----------------
 function drawStage3(){
   if(!targetColor) {
-    numOptions = 5; // number of choices
+    numOptions = 5; // choices
     setupStage3Option2();
   }
   drawStage3Option2();
 }
 
-// Game 3 colors
 function setupStage3Option2(){
-  targetColor = [random(50,255), random(50,255), random(50,255)];
+  targetColor = [random(50,255), random(50,255), random(50,255)]; //colors
   
-// create color options including the target
+
   colorOptions = [];
   colorOptions.push(targetColor);
   for(let i=1;i<numOptions;i++){
-    colorOptions.push([random(50,255), random(50,255), random(50,255)]);
+    colorOptions.push([random(50,255), random(50,255), random(50,255)]); //tile colors
   }
-  
-// shuffle options
+
   colorOptions = shuffle(colorOptions);
 }
 
-// Draw game 3 interactive
 function drawStage3Option2(){
   background(220);
   textSize(14);
   fill(0);
-  text("Click the color that could match the kaleidoscope!", width/2, 50);
+  text("Click the color to change the kaleidoscope!", width/2, 50);
   
-  // draw central kaleidoscope
+ //central shape
  push();
 translate(width/2, height/2 - 50);
 scale(4);
 drawKaleidoscopeShapeStatic(targetColor);  // <-- pass the color here
 pop();
   
-  // draw options as rectangles
+  //option tiles
   let size = 50;
   for(let i=0;i<colorOptions.length;i++){
     fill(colorOptions[i][0], colorOptions[i][1], colorOptions[i][2]);
@@ -223,31 +220,27 @@ function drawKaleidoscopeShapeStatic(baseColor = [255,0,0]) {
   strokeWeight(0.5);
   stroke(200);
   
-  // Main circle uses the baseColor
   fill(baseColor[0], baseColor[1], baseColor[2], 140);
   circle(0,0,45);
   
-  // Inner circles (shaded variations)
   fill(baseColor[0]*0.5, baseColor[1]*0.5, baseColor[2]*0.5, 180);
-  circle(0,0,35);
+  circle(0,0,35); // inner circles
   
-  fill(baseColor[0], baseColor[1]*0.3, baseColor[2]*0.3, 130);
+  fill(baseColor[0], baseColor[1]*0.3, baseColor[2]*0.3,130);
   circle(0,0,25);
-
-  // Triangles (more variation)
-  fill(baseColor[0], baseColor[1]*0.8, baseColor[2]*0.7,120);
+  fill(255,200,0,120);
   triangle(0,-7,-7,0,-15,-15);
   triangle(0,-7,7,0,15,-15);
   triangle(7,0,0,7,15,15);
   triangle(0,7,-7,0,-15,15);
 
-  fill(baseColor[0], baseColor[1]*0.5, baseColor[2]*0.5,140);
-  circle(0,0,15);
+  fill(255,0,0,140);
+  circle(0,0,15); // small circle
 }
 
 // ---------------- MOUSE ----------------
 function mousePressed(){
-  if(state===0){
+  if(state===0){  //menu
     for(let tile of menuTiles){
       if(mouseX>tile.x && mouseX<tile.x+tile.w &&
          mouseY>tile.y && mouseY<tile.y+tile.h &&
@@ -257,7 +250,7 @@ function mousePressed(){
     }
   }
 
-  if(state===1){
+  if(state===1){  //game 1
     for(let i=orbBursts.length-1;i>=0;i--){
       let orb=orbBursts[i];
       let d=dist(mouseX,mouseY,orb.x,orb.y);
@@ -268,25 +261,25 @@ function mousePressed(){
     }
   }
 
-  if(state===3){
+  if(state===3){  //game 3
   let size = 50;
   for(let i=0;i<colorOptions.length;i++){
     let x1 = 60 + i*70;
     let y1 = height-100;
     if(mouseX>x1 && mouseX<x1+size && mouseY>y1 && mouseY<y1+size){
-      // Whatever option is clicked becomes the new targetColor
-      targetColor = [...colorOptions[i]];
+      targetColor = [...colorOptions[i]];    //select
     }
   }
 }
 
-  // Back button
+  // return button
   if(mouseX>10 && mouseX<70 && mouseY>10 && mouseY<35){
     state=0; resetStages(); setupMenu();
   }
 }
 
-// ---------------- CONTROL ----------------
+
+//
 function startStage(s){
   state=s;
   stageTimer=60*60;
@@ -311,7 +304,7 @@ function resetStages(){
   bgColor=null;
 }
 
-// ---------------- KEYS ----------------
+// ---------------- KEYPRESSED ----------------
 function keyPressed(){
   if(state===2){
     if(keyCode===LEFT_ARROW) angle-=rotationSpeed;
