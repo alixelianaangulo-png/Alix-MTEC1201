@@ -204,12 +204,11 @@ function drawStage3Option2(){
   text("Click the color that could match the kaleidoscope!", width/2, 50);
   
   // draw central kaleidoscope
-  push();
-  translate(width/2, height/2 - 50);
-  scale(4);
-  fill(targetColor[0], targetColor[1], targetColor[2]);
-  drawKaleidoscopeShapeStatic();
-  pop();
+ push();
+translate(width/2, height/2 - 50);
+scale(4);
+drawKaleidoscopeShapeStatic(targetColor);  // <-- pass the color here
+pop();
   
   // draw options as rectangles
   let size = 50;
@@ -220,21 +219,29 @@ function drawStage3Option2(){
 }
 
 // ---------------- KALEIDOSCOPE ----------------
-function drawKaleidoscopeShapeStatic(){
+function drawKaleidoscopeShapeStatic(baseColor = [255,0,0]) {
   strokeWeight(0.5);
   stroke(200);
-  fill(255,0,0,140);
+  
+  // Main circle uses the baseColor
+  fill(baseColor[0], baseColor[1], baseColor[2], 140);
   circle(0,0,45);
-  fill(120,0,0,180);
+  
+  // Inner circles (shaded variations)
+  fill(baseColor[0]*0.5, baseColor[1]*0.5, baseColor[2]*0.5, 180);
   circle(0,0,35);
-  fill(255,80,0,130);
+  
+  fill(baseColor[0], baseColor[1]*0.3, baseColor[2]*0.3, 130);
   circle(0,0,25);
-  fill(255,200,0,120);
+
+  // Triangles (more variation)
+  fill(baseColor[0], baseColor[1]*0.8, baseColor[2]*0.7,120);
   triangle(0,-7,-7,0,-15,-15);
   triangle(0,-7,7,0,15,-15);
   triangle(7,0,0,7,15,15);
   triangle(0,7,-7,0,-15,15);
-  fill(255,0,0,140);
+
+  fill(baseColor[0], baseColor[1]*0.5, baseColor[2]*0.5,140);
   circle(0,0,15);
 }
 
@@ -262,20 +269,16 @@ function mousePressed(){
   }
 
   if(state===3){
-    let size = 50;
-    for(let i=0;i<colorOptions.length;i++){
-      let x1 = 60 + i*70;
-      let y1 = height-100;
-      if(mouseX>x1 && mouseX<x1+size && mouseY>y1 && mouseY<y1+size){
-        if(colorOptions[i][0]===targetColor[0] &&
-           colorOptions[i][1]===targetColor[1] &&
-           colorOptions[i][2]===targetColor[2]){
-          score += 2;
-          setupStage3Option2(); // next round
-        }
-      }
+  let size = 50;
+  for(let i=0;i<colorOptions.length;i++){
+    let x1 = 60 + i*70;
+    let y1 = height-100;
+    if(mouseX>x1 && mouseX<x1+size && mouseY>y1 && mouseY<y1+size){
+      // Whatever option is clicked becomes the new targetColor
+      targetColor = [...colorOptions[i]];
     }
   }
+}
 
   // Back button
   if(mouseX>10 && mouseX<70 && mouseY>10 && mouseY<35){
