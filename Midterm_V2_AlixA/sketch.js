@@ -1,3 +1,8 @@
+//KELEIDOSCOPE GAME//
+//re-organized game order
+//instructions on page//
+
+
 let state = 0; 
 // 0 = initial loading
 // 1 = GAME 3 (customization FIRST)
