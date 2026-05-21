@@ -737,14 +737,25 @@ function drawFinalDream()
   noStroke();
   fill(255,220,180,40);
   ellipse(width/2,height/2,260,300);
-//closed eyes
+
+//animate eyes opening
+  eyeOpen = lerp(eyeOpen, 50, 0.08);
+//eyes
   stroke(120,100,140);
   strokeWeight(3);
-  line(390,280,440,280);
-  line(460,280,510,280);
+  fill(255);
+  ellipse(415,280,50,eyeOpen);
+  ellipse(485,280,50,eyeOpen);
+
   noStroke();
+//closed eyes
+  //stroke(120,100,140);
+  //strokeWeight(3);
+  //line(390,280,440,280);
+  //line(460,280,510,280);
+  //noStroke();
 //open eye
-  eyeOpen = lerp(eyeOpen, 20, 1);
+  //eyeOpen = lerp(eyeOpen, 20, 1);
 //soft flaming
   for(let p of particles)
   {
@@ -758,9 +769,9 @@ function drawFinalDream()
   text("the dream remembers", width/2, 120);
 
   textSize(18);
-  fill(55,160);
+  fill(250,190);
 
-  text("every broken memory has returned", width/2, 480);
+  text("every broken memory has been restored", width/2,480);
   text("the mind rests peacefully now",width/2, 500);
 }
 
