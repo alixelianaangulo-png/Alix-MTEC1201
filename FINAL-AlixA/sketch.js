@@ -1,3 +1,12 @@
+//FINAL PROJECT
+//DREAMY
+//ALIX ANGULO
+//6 different states with games within
+//challenge is to complete games in order to reach final state
+//instructions on page
+//main page stabalize as each game is completed, making images still and brighter
+
+
 let state = 0;
   //0=intro
   //1=dream
